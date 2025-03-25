@@ -1,0 +1,145 @@
+/* General Page Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #eef1f7;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Chatbot Container */
+.chatbot-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h2 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+p {
+    color: #555;
+    font-size: 14px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+input, button, select {
+    width: 90%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* File Input */
+input[type="file"] {
+    border: none;
+    background: #f9f9f9;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Select Dropdown */
+select {
+    cursor: pointer;
+    background-color: #f8f8f8;
+}
+
+/* Submit Button */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+/* Response Section */
+#response-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    padding: 12px;
+    background: #e9ecef;
+    border-radius: 5px;
+}
+
+/* Uploaded Image */
+#uploaded-image {
+    max-width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+/* Loading Spinner */
+#loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-top: 10px;
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .chatbot-container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 600px) {
+    .chatbot-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    input, button, select {
+        width: 100%;
+    }
+}

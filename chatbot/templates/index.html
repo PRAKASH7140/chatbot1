@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Image Recognition Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="chatbot-container">
+        <h2>Conversational Image Recognition Chatbot</h2>
+        <p>Upload an image and ask a question about it.</p>
+
+        <form id="upload-form" enctype="multipart/form-data">
+            <label for="image-upload">Upload an Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+            <img id="uploaded-image" src="" alt="Uploaded Image" style="display: none; max-width: 50%; margin-top: 10px;" />
+            
+            <label for="preset-questions">Choose a question:</label>
+            <select id="preset-questions">
+                <option value="">Select a question...</option>
+                <option value="What objects are in the image?">What objects are in the image?</option>
+                <option value="Is there a person in the image?">Is there a person in the image?</option>
+                <option value="What is the main subject of the image?">What is the main subject of the image?</option>
+                <option value="What colors are dominant in the image?">What colors are dominant in the image?</option>
+                <option value="Does the image contain text?">Does the image contain text?</option>
+                <option value="Is there any signboard or label in the image?">Is there any signboard or label in the image?</option>
+                <option value="Does the image contain any vehicles?">Does the image contain any vehicles?</option>
+                <option value="What type of scene is shown in the image?">What type of scene is shown in the image?</option>
+                <option value="Is there a landmark in the image?">Is there a landmark in the image?</option>
+                <option value="Does the image appear to be taken indoors or outdoors?">Does the image appear to be taken indoors or outdoors?</option>
+            </select>
+
+            <label for="user_query">Or ask your own question:</label>
+            <input type="text" id="user_query" name="user_query" placeholder="Ask something about the image..." />
+
+            <button type="submit" id="submit-btn">Submit</button>
+            <div id="loading-spinner" class="hidden"></div>
+        </form>
+
+        <h3>Response:</h3>
+        <div id="chat-history"></div>
+    </div>
+
+    <script>
+        document.getElementById('preset-questions').addEventListener('change', function () {
+            document.getElementById('user_query').value = this.value;
+        });
+
+        document.getElementById('image').addEventListener('change', function (event) {
+            let uploadedImage = document.getElementById('uploaded-image');
+            let file = event.target.files[0];
+            if (file) {
+                uploadedImage.src = URL.createObjectURL(file);
+                uploadedImage.style.display = 'block';
+            }
+        });
+
+        document.getElementById('upload-form').onsubmit = async function (event) {
+            event.preventDefault();
+
+            let submitButton = document.getElementById('submit-btn');
+            let loadingSpinner = document.getElementById('loading-spinner');
+            let chatHistoryDiv = document.getElementById('chat-history');
+
+            submitButton.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+
+            let formData = new FormData(this);
+            let response = await fetch('/chatbot', {
+                method: 'POST',
+                body: formData
+            });
+
+            let data = await response.json();
+            console.log(data);
+
+            if (data.error) {
+                chatHistoryDiv.innerHTML += `<p><b>Error:</b> ${data.error}</p>`;
+            } else {
+                let newChat = `<p><b>You:</b> ${data.chat_history[data.chat_history.length - 1].user}<br>
+                               <b>Bot:</b> ${data.chat_history[data.chat_history.length - 1].bot}</p>`;
+                chatHistoryDiv.innerHTML += newChat;
+            }
+
+            submitButton.disabled = false;
+            loadingSpinner.classList.add('hidden');
+        };
+    </script>
+</body>
+</html>
